@@ -35,3 +35,24 @@ class Expense {
     return formatDate.format(date);
   }
 }
+
+//add chart expense
+class ExpenseBucket {
+  const ExpenseBucket({required this.catergory, required this.expenses});
+
+  ExpenseBucket.forCatergory(List<Expense> allExpenses, this.catergory)
+      : expenses = allExpenses
+            .where((expense) => expense.cetergory == catergory)
+            .toList(); //additional funtion in the class filter
+
+  final Catergory catergory;
+  final List<Expense> expenses;
+
+  double get totalExpenses {
+    double sum = 0;
+    for (final expense in expenses) {
+      sum += expense.amount;
+    }
+    return sum;
+  }
+}
