@@ -30,6 +30,7 @@ class _ExpensesState extends State<Expenses> {
   void _openAddExpenses() {
     //add new dynamic element => model Overlay
     showModalBottomSheet(
+      useSafeArea: true, //camara responsive
       //built in funtion
       isScrollControlled: true,
       context: context,
@@ -70,6 +71,9 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
+    //ajust with available
+    final width = MediaQuery.of(context).size.width;
+    ///////////
     Widget mainContent = const Center(
       child: Text("No expenses, Start Adding."),
     );
@@ -81,6 +85,7 @@ class _ExpensesState extends State<Expenses> {
     }
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         title: const Text("Expense Tracker"),
         //action use to display widgets or button
         actions: [
@@ -91,15 +96,28 @@ class _ExpensesState extends State<Expenses> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          Chart(expenses: _registerdExpenses),
-          //list output
-          Expanded(
-            child: mainContent,
-          ),
-        ],
-      ),
+      //compare with width
+      body: width < 600
+          ? Column(
+              children: [
+                Chart(expenses: _registerdExpenses),
+                //list output
+                Expanded(
+                  child: mainContent,
+                ),
+              ],
+            )
+          : Row(
+              children: [
+                Expanded(
+                  child: Chart(expenses: _registerdExpenses),
+                ),
+                //list output
+                Expanded(
+                  child: mainContent,
+                ),
+              ],
+            ),
     );
   }
 }
